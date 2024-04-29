@@ -1,0 +1,371 @@
+//TableView
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let Cell = tableView.dequeueReusableCell(withIdentifier: "cell1",for: indexPath)
+        let contentView = Cell.contentView
+        let img = contentView.viewWithTag(1) as! UIImageView
+        let label = contentView.viewWithTag(2) as! UILabel
+        let label1 = contentView.viewWithTag(3) as! UILabel
+        
+        label.text = list[indexPath.row]
+        label1.text = msg[indexPath.row]
+        img.image = UIImage(named: list[indexPath.row])
+        return Cell
+        
+    }
+
+//Segue
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let tab = indexPath
+       
+            performSegue(withIdentifier: "seg", sender: tab)
+        }
+        
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "seg" {
+            let tab = sender as! IndexPath
+            let destination = segue.destination as! DetailViewController
+            destination.user = exercices[tab.row]
+            destination.nom = categories[tab.row ]
+            }
+        }
+///////////////NEXT VIEW///////////////////
+	var user : String?
+    	var nom : String?
+
+
+override func viewDidLoad() {
+        super.viewDidLoad()
+        imag.image = UIImage(named: user!)
+        lab1.text = user!
+        lab2.text = nom!
+    }
+///////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////
+@IBAction func slido(_ sender: UISlider) {			
+        rating = Int(sender.value)
+        RAT.text = String((sender.value))
+    }
+@IBOutlet weak var RAT: UILabel!
+var rating = 5
+///////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////
+@IBOutlet weak var setsLabel: UILabel!
+    
+    @IBOutlet weak var repsLabel: UILabel!
+    var sets = 0
+    var reps = 0
+    
+    @IBAction func appsets(_ sender: UIStepper) {
+        sets = Int(sender.value)
+        setsLabel.text = String(Int(sender.value))
+    }
+    
+    @IBAction func appreps(_ sender: UIStepper) {
+        reps = Int(sender.value)
+        repsLabel.text = String(Int(sender.value))
+    }
+///////////////////////////////////////////////////////////////////
+INSERT
+//function
+
+func alert(message:String){
+        let alert = UIAlertController(title: "MESSAGE", message: "Exercice add successfgully", preferredStyle: .alert)
+        let action = UIAlertAction(title: "ok!", style: .cancel, handler: nil)
+        alert.addAction(action)
+        self.present(alert,animated: true)    }
+
+
+func InsertItem(){
+    let AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    let persistentContainer = AppDelegate.persistentContainer
+    let managedContext = persistentContainer.viewContext
+
+    let entityDescription = NSEntityDescription.entity(forEntityName: "Champs", in: managedContext)
+    let object = NSManagedObject(entity: entityDescription!, insertInto: managedContext)
+
+    object.setValue(user, forKey: "champName")
+    object.setValue(nom, forKey: "nom")
+        object.setValue(reps, forKey: "reps")
+        object.setValue(sets, forKey: "sets")
+        do {
+    try managedContext.save()
+            alert(message:"INSERT SUCCESSFULLY")
+    print("INSERT SUCCESSFULLY")
+    }catch{
+    print("INSERT ERROR")
+    }
+    }
+
+CHECKKKKKK EXXXIST!!!!!
+
+
+func checkChamp() -> Bool {
+    var champExist = false
+    let AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    let persistentContainer = AppDelegate.persistentContainer
+    let managedContext = persistentContainer.viewContext
+
+    let request = NSFetchRequest<NSManagedObject>(entityName: "Champs")
+    let predicate = NSPredicate(format: "champName = %@", user!)
+    request.predicate = predicate
+
+    do{
+    let result = try managedContext.fetch(request)
+    if result.count > 0 {
+    champExist = true
+    }
+    } catch {
+    print("Fetching Error")
+    }
+    return champExist
+}
+}
+OOOOOOORRRRRR
+func getByCreateria(name: String) -> NSManagedObject{
+        
+        var exExist:NSManagedObject?
+        
+   
+
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let persistentContainer = appDelegate.persistentContainer
+        let managedContext = persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Champs")
+        let predicate = NSPredicate(format: "champName = %@", name)
+        request.predicate = predicate
+        
+        do {
+            let result = try managedContext.fetch(request)
+            if result.count > 0 {
+                
+                exExist = (result[0] as! NSManagedObject)
+                print("exercice exists !")
+                
+            }
+            
+        } catch {
+            
+            print("Fetching by criteria error !")
+        }
+        
+        
+        return exExist!
+    }
+
+/////////////////////////////////////////////////////////
+FETCH DATA
+var exercices = [String]()
+    var categories = [String]()
+    var sets = [Int32]()
+    var reps = [Int32]()
+
+func fetchData(){
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let persistentContainer = appDelegate.persistentContainer
+    let managedContext = persistentContainer.viewContext
+
+    let request = NSFetchRequest<NSManagedObject>(entityName: "Champs")
+    do {
+    let result = try managedContext.fetch(request)
+        for item in result {
+            exercices.append(item.value(forKey: "champName") as! String)
+            categories.append(item.value(forKey: "nom") as! String)
+            sets.append(item.value(forKey: "sets") as! Int32)
+            reps.append(item.value(forKey: "reps") as! Int32)
+        }
+    }catch {
+    print("FETCHING ERROR")
+    }
+    }
+
+////////////////////////////////////////////////////////
+DELETING 
+func deleteElements() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let persistentContainer = appDelegate.persistentContainer
+        let managedContext = persistentContainer.viewContext
+        
+      //  for item in exercices {
+            
+           // let object = getByCreateria(name: item)
+        managedContext.deletedObjects
+
+
+
+//////////////////////////////////////////////////////
+kifeh dged lalert
+//IBAction
+djib lbutton ADD to favorite
+@IBAction func saveChamp(_ sender: Any) {
+if checkChamp() {
+let alert = UIAlertController(title: "warnig", message: "CHAMP ALREADY EXIST.", preferredStyle: .alert)
+let action = UIAlertAction(title: "GOT IT!", style: .cancle, handler: nil)
+alert.addAction(action)
+self.present(alert,animated: true)
+}else{
+InsertItem()
+}
+}
+
+IF EXIST
+func checkChamp() -> Bool {
+var champExist = false
+let AppDelegate = UIApplication.shared.delegate as! AppDelegate
+let persistentContainer = appDelegate.persistentContainer
+let managedContext = persistentContainer.viewContext
+
+let request = NSFetchRequest<NSManagedObject>(entityName: "Champs")
+let predicate = NSPredicate(format: "champName = %@", champTitle!)
+requuest.predicate = predicate
+
+do{
+let result = try managedContext.fetch(request)
+if result.count > 0 {
+champExist = true
+}
+} catch {
+print("Fetching Error")
+}
+return champExist
+
+SELECT
+create ViewFavorites
+segue mel bar butom
+creation class FavoriteViewContreller
+Creation table fih les entite: 
+let favorites[String]()
+
+mbaed te5ou nafes el func mta3 tableview mel viewcontroler
+ou tabdel data be favorites:
+return favorites.count
+
+
+//function
+func fetchData(){
+let AppDelegate = UIApplication.shared.delegate as! AppDelegate
+let persistentContainer = appDelegate.persistentContainer
+let managedContext = persistentContainer.viewContext
+
+let request = NSFetchRequest<NSManagedObject>(entityName: "Champs")
+do {
+let result = try managedContext.fetch(request)
+let item in result {
+favorites.append(item.value(forKey: "champName") as! String)
+}
+}catch {
+print("FETCHING ERROR")
+}
+}
+
+mbaed t7ot lfunc fel viewDidLoad bech awel metabda lview tetsna3 tfetchili el data:
+override func viewDidLoad() {
+super.viewDidLoad()
+fetchData()
+}
+
+ou traka7 lfunc prepare mta3 segue
+
+DELETING
+
+func tableView(_ tableView: UITableView, comit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+if editingStyle == .delete {
+deletItem(index: indexPath.row)
+//hedhi bech ki tfasa5 todhhorlek direct 
+favorites.remove(at: indexPath.row)
+tableView.reloadData()
+}
+}
+
+func deletItem(index: int) {
+let AppDelegate = UIApplication.shared.delegate as! AppDelegate
+let persistentContainer = appDelegate.persistentContainer
+let managedContext = persistentContainer.viewContext
+
+let request = NSFetchRequest<NSManagedObject>(entityName: "Champs")
+let predicate = NSPredicate(format: "champName = %@", favorites[index])
+request.predicate = predicate
+
+do {
+let result = try managedContext.fetch(request)
+if result.count > 0 {
+let obj = result[0]
+managedContext.delete(obj)
+print("DELETING SUCCESFULLY!")
+}
+} catch {
+print("Fetching error!")
+}
+
+}
+
+
+
+
+
+
+
+///////////////////////////////////////////////
+
+COLLECTIONVIEW
+
+//////////////////////////////////////////////
+class WorkViewController: UIViewController  ,UICollectionViewDataSource{
+    
+    
+    @IBOutlet weak var collec: UICollectionView!
+    
+    var exercices = [String]()
+    var categories = [String]()
+    var sets = [Int32]()
+    var reps = [Int32]()
+
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return exercices.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "celll", for: indexPath)
+                let contentView = cell.contentView
+                let img1 = contentView.viewWithTag(1) as! UIImageView
+                let label1 = contentView.viewWithTag(2) as! UILabel
+                let label11 = contentView.viewWithTag(3) as! UILabel
+                let label12 = contentView.viewWithTag(4) as! UILabel
+        
+        
+        label11.text = categories[indexPath.row]
+        label1.text = exercices[indexPath.row]
+        img1.image = UIImage(named: exercices[indexPath.row])
+        label12.text = String(sets[indexPath.row]) + "/" + String(reps[indexPath.row])
+        return cell
+        
+    }
+    
+    func fetchData(){
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let persistentContainer = appDelegate.persistentContainer
+    let managedContext = persistentContainer.viewContext
+
+    let request = NSFetchRequest<NSManagedObject>(entityName: "Champs")
+    do {
+    let result = try managedContext.fetch(request)
+        for item in result {
+            exercices.append(item.value(forKey: "champName") as! String)
+            categories.append(item.value(forKey: "nom") as! String)
+            sets.append(item.value(forKey: "sets") as! Int32)
+            reps.append(item.value(forKey: "reps") as! Int32)
+        }
+    }catch {
+    print("FETCHING ERROR")
+    }
+    }
+
+override func viewDidLoad() {
+        super.viewDidLoad()
+
+        fetchData()
+    }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>URL</key>
+	<string>data:attachment/json;charset=utf-8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%20%20%20%20%3C!DOCTYPE%20plist%20PUBLIC%20%22-%2F%2FApple%2F%2FDTD%20PLIST%201.0%2F%2FEN%22%0A%20%20%20%20%22http%3A%2F%2Fwww.apple.com%2FDTDs%2FPropertyList-1.0.dtd%22%3E%0A%20%20%20%20%3Cplist%20version%3D%221.0%22%3E%0A%20%20%20%20%3Cdict%3E%0A%20%20%20%20%20%20%3Ckey%3ECLIENT_ID%3C%2Fkey%3E%0A%20%20%20%20%20%20%3Cstring%3E148466381615-mpc55dgfkrqk7q97dbuisl31br5kjhbj.apps.googleusercontent.com%3C%2Fstring%3E%0A%20%20%20%20%20%20%3Ckey%3EREVERSED_CLIENT_ID%3C%2Fkey%3E%0A%20%20%20%20%20%20%3Cstring%3Ecom.googleusercontent.apps.148466381615-mpc55dgfkrqk7q97dbuisl31br5kjhbj%3C%2Fstring%3E%0A%20%20%20%20%20%20%3Ckey%3EPLIST_VERSION%3C%2Fkey%3E%0A%20%20%20%20%20%20%3Cstring%3E1%3C%2Fstring%3E%0A%20%20%20%20%20%20%3Ckey%3EBUNDLE_ID%3C%2Fkey%3E%0A%20%20%20%20%20%20%3Cstring%3Ecom.esprit.Kouzina.app%3C%2Fstring%3E%0A%20%20%20%20%3C%2Fdict%3E%0A%20%20%20%20%3C%2Fplist%3E</string>
+</dict>
+</plist>

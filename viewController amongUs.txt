@@ -1,0 +1,84 @@
+//
+//  ViewController.swift
+//  amongUs
+//
+//  Created by wajih on 11/16/21.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+
+    //var
+    
+    
+    
+    
+    //iboutles
+    
+    
+    @IBOutlet weak var avatarImageView: UIImageView!
+    
+    @IBOutlet weak var usernameTextField: UITextField!
+    //ibactions
+    
+    
+    @IBAction func redButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Red")
+    }
+    
+    
+    @IBAction func yellowButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Yellow")
+    }
+    
+    
+    @IBAction func brownButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Brown")
+    }
+    
+    @IBAction func blueButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Light-blue")
+    }
+    
+    
+    @IBAction func orangeButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Orange")
+    }
+    
+    
+    @IBAction func purpelButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Purple")
+    }
+    
+    @IBAction func roseButton(_ sender: Any) {
+        avatarImageView.image = UIImage(named: "Rose")
+    }
+    
+    
+    
+    @IBAction func startButton(_ sender: Any) {
+        let userName = usernameTextField.text
+        performSegue(withIdentifier: "firstSegue", sender: userName)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            
+            if segue.identifier == "firstSegue" {
+                let userName = sender as! String
+                let destination = segue.destination as! GameRoomViewController
+                destination.userName1 = userName
+            }
+            
+        }
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
+}
+

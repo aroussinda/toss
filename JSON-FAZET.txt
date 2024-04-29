@@ -1,0 +1,49 @@
+/// URL 
+https://developer.apple.com/swift/blog/?id=37
+
+
+chatJSON {      
+sendemsg :
+[
+{
+text:
+seen:
+
+},
+
+{
+text:
+seen:
+
+},
+{
+
+text:
+seen:
+},
+
+]
+
+}
+////
+
+
+chatJSON = jib json file ily fiha chat 
+
+if let dictionary = chatJSON as ? [String : Any] {
+
+if let senderMsgs = dictionary ["senderMsgs"] as? [Any] {
+// acces the list of sender msgs
+
+for msg in senderMsgs {
+
+   // jarib hedhy 
+
+ for (key , value ) in msg {
+      // key 1 : seen 
+      // key 2 : text
+      // ista3milha fi Msgs jdid
+}
+}
+}
+}

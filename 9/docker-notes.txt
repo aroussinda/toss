@@ -1,0 +1,60 @@
+// build 
+
+
+docker build -t geochatdocker .
+// run
+ docker run -t -p 3000:3000 geochatdocker
+
+
+
+
+
+
+
+
+
+
+
+// first dokcerzing
+create DockerFIle
+
+FROM node:14
+
+WORKDIR /app
+
+COPY package*.json ./app
+
+
+RUN npm install
+
+COPY . . 
+
+EXPOSE 8080
+
+CMD ["node", "server.js"]
+
+// run this command 
+
+docker build -t backdocker/nodeweb:v1
+
+// backdocker/nodeweb ism il image 
+// v1 version
+
+//// run the docker container
+ docker run -t -p 3000:3000 geochatdocker
+//// update docker container
+
+docker pull <containername> : <version jdida>
+
+/// dokcer show list of running images
+
+docker images   /// select the id of the desired container
+
+/// docker stop container
+
+docker stop <container_id>
+
+/// docker remove container 
+
+docker rm <container_id>
+

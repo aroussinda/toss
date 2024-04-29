@@ -1,0 +1,101 @@
+//
+//  ViewController.swift
+//  app1
+//
+//  Created by wajih on 11/2/21.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    //var
+    var score1 = 0
+    var round1 = 0
+    var random1 = 0
+    
+    //IBOutlets
+    @IBOutlet weak var randomValue: UILabel!
+    
+    @IBOutlet weak var mslider: UISlider!
+    
+    @IBOutlet weak var score: UILabel!
+    
+    @IBOutlet weak var round: UILabel!
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        LoadGame()
+    }
+
+    //functions
+    func generateRandom() -> Int {
+        return Int.random(in: 1..<100)
+        
+    }
+    func LoadGame() {
+        score1 = 0
+        round1 = 1
+        random1 = generateRandom()
+        
+        score.text = String(score1)
+        randomValue.text = String(random1)
+        round.text = String(round1)
+        mslider.value = 50
+        
+    }
+    func playGame()  {
+        let diff = abs(Int(mslider.value.rounded()) - random1)
+        
+        if diff == 0 {
+            score1 += 100
+            prompt(title: "good", message: "bull's eye")
+        }else if diff<=5 {
+            score1 += 50
+            prompt(title: "nice", message: "try again")
+            
+        }else{
+            score1 += 0
+            prompt(title: "failed", message: "not even close")
+            
+        }
+        updateLabel()
+        
+        
+    }
+    func prompt(title:String,message:String)  {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "got it", style: .cancel, handler: nil)
+        
+        alert.addAction(action)
+        self.present(alert,animated: true)
+    
+    }
+    func updateLabel() {
+        
+        round1 += 1
+        random1 = generateRandom()
+        
+        score.text = String(score1)
+        randomValue.text = String(random1)
+        round.text = String(round1)
+        mslider.value = 50
+        
+        
+    }
+    
+    @IBAction func changeValueListner(_ sender: Any) {
+        print(mslider.value.rounded())
+    }
+    //IBActions
+    @IBAction func hitMeButton(_ sender: Any) {
+        playGame()
+    }
+    
+    @IBAction func reset(_ sender: Any) {
+        LoadGame()
+    }
+}
+

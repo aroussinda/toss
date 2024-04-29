@@ -1,0 +1,94 @@
+FavoritesViewController
+//  app2
+//
+//  Created by wajih on 11/4/21.
+//
+
+import UIKit
+import CoreData
+
+class FavoritesViewController: UIViewController,UITableViewDataSource,UITableViewDelegate{
+
+    //var
+    var favorites = [String]()
+    
+    
+    
+    
+    //widgets
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return favorites.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "mcell")
+        let contentView = cell?.contentView
+        
+        let label = contentView?.viewWithTag(1) as! UILabel
+        let imageView = contentView?.viewWithTag(2) as! UIImageView
+        
+        label.text = favorites[indexPath.row]
+        imageView.image = UIImage(named: favorites[indexPath.row])
+        
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deleteItem(index: indexPath.row)
+            favorites.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchData()
+        // Do any additional setup after loading the view.
+    }
+    
+    //functions
+    func fetchData()  {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let persistentContainer = appDelegate.persistentContainer
+        let managedContext = persistentContainer.viewContext // list des nsmangedobject
+        
+        let request = NSFetchRequest<NSManagedObject>(entityName: "Movie")
+        do {
+            let result = try managedContext.fetch(request)
+            for item in result{
+                favorites.append(item.value(forKey: "movieName") as! String)
+            }
+        } catch  {
+            print("fetching error")
+        }
+    }
+    
+    func deleteItem(index :Int)  {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let persistentContainer = appDelegate.persistentContainer
+        let managedContext = persistentContainer.viewContext // list des nsmangedobject
+        
+        let request = NSFetchRequest<NSManagedObject>(entityName: "Movie")
+        let predicate = NSPredicate(format: "movieName = %@", favorites[index])
+        request.predicate = predicate
+        do {
+            let result = try managedContext.fetch(request)
+            if result.count > 0 {
+                let obj = result[0]
+                managedContext.delete(obj)
+                print("deleted succefully")
+            }
+        } catch  {
+            print("fetching error")
+        }
+    }
+    
+    
+    
+    
+    //ibactions
+    
+
+    
+}
